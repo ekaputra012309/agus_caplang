@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend;
+use App\Http\Controllers\Backend\EventController;
 use App\Http\Controllers\Backend\HubkaryawanController;
 use App\Http\Controllers\Backend\KaryawanController;
 use App\Http\Controllers\Backend\MasterAreaController;
@@ -41,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('area', MasterAreaController::class); //area
     Route::resource('outlet', MasterOutletController::class); //outlet
     Route::resource('user', UserController::class); //user
+
+    Route::resource('event', EventController::class); //event
 });
 // routes/web.php
 Route::get('/karyawan/{id}/nama', [App\Http\Controllers\Backend\KaryawanController::class, 'getNama'])->name('karyawan.getNama');

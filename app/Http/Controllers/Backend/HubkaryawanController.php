@@ -36,11 +36,18 @@ class HubkaryawanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'karyawan_id' => 'required|exists:master_karyawan,id',
-            'nama_tl' => 'required|string|max:255',
-            'area' => 'required|string|max:255',
+            'nama_tl' => 'required|exists:master_karyawan,id',
+            'spg1' => 'required|exists:master_karyawan,id',
+            'spg2' => 'required|exists:master_karyawan,id',
+            'tanggal' => 'required|date',
+            'sku' => 'required|exists:master_sku,id',
+            'qty' => 'required|integer',
+            'harga_satuan' => 'required|integer',
+            'total_penjualan' => 'required|integer',
+            'target_penjualan' => 'required|integer',
             'user_id' => 'required|exists:users,id',
         ]);
+
 
         MasterHubkaryawan::create($request->all());
         Alert::success('Success', 'karyawan created successfully.');
@@ -74,11 +81,18 @@ class HubkaryawanController extends Controller
             Alert::error('Error', 'Model not found.');
         }
         $request->validate([
-            'karyawan_id' => 'required|exists:master_karyawan,id',
-            'nama_tl' => 'required|string|max:255',
-            'area' => 'required|string|max:255',
+            'nama_tl' => 'required|exists:master_karyawan,id',
+            'spg1' => 'required|exists:master_karyawan,id',
+            'spg2' => 'required|exists:master_karyawan,id',
+            'tanggal' => 'required|date',
+            'sku' => 'required|exists:master_sku,id',
+            'qty' => 'required|integer',
+            'harga_satuan' => 'required|integer',
+            'total_penjualan' => 'required|integer',
+            'target_penjualan' => 'required|integer',
             'user_id' => 'required|exists:users,id',
         ]);
+
 
         $hubkaryawan->update($request->all());
         Alert::success('Success', 'karyawan updated successfully.');

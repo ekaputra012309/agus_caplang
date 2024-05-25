@@ -16,4 +16,9 @@ class KaryawanModel extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function masterHubkaryawan()
+    {
+        return $this->hasMany(MasterHubkaryawan::class, 'karyawan_id');
+    }
 }

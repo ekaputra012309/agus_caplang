@@ -81,14 +81,17 @@
                         </ul>
                     </li>
                 @endif
-                <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link">
-                        <i class="nav-icon fas fa-feather-alt"></i>
-                        <p>
-                            Request User
-                        </p>
-                    </a>
-                </li>
+
+                @if (in_array(auth()->user()->role, ['Admin', 'TL']))
+                    <li class="nav-item">
+                        <a href="{{ route('event.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-feather-alt"></i>
+                            <p>
+                                Event
+                            </p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
 

@@ -22,30 +22,30 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="card card-danger">
                             <div class="card-header">
-                                <h3 class="card-title">Dounat Chart</h3>
+                                <h3 class="card-title">Total vs Penjualan by SKU</h3>
                                 <div class="card-tools">
                                 </div>
                             </div>
                             <div class="card-body">
-                                <canvas id="donutChart"
+                                <canvas id="totalPenjualanVsTargetChart"
                                     style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                             </div>
                         </div>
 
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-7">
                         <div class="card card-success">
                             <div class="card-header">
-                                <h3 class="card-title">Bar Chart</h3>
+                                <h3 class="card-title">Total Penjualan by SKU</h3>
                                 <div class="card-tools">
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart">
-                                    <canvas id="barChart"
+                                    <canvas id="totalPenjualanChart"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
@@ -56,77 +56,85 @@
 
     </div>
     <script src="{{ asset('backend/js/Chart.min.js') }}"></script>
-    {{-- <script>
-        function generateColors(count) {
-            // Define an array of base colors
-            const baseColors = ['#f56954', '#00a65a', '#f39c12', '#007bff', '#6610f2', '#17a2b8', '#28a745', '#dc3545',
-                '#ffc107', '#6c757d'
-            ];
+    <script>
+        $(document).ready(function() {
+            var ctx = $('#totalPenjualanVsTargetChart')[0].getContext('2d');
+            var data = @json($totalvsTarget);
 
-            // Initialize an array to store generated colors
-            let colors = [];
+            var labels = data.map(function(item) {
+                return item.sku_keterangan;
+            });
 
-            // Generate colors based on the count of data points
-            for (let i = 0; i < count; i++) {
-                // Use modulus operator to cycle through base colors if count exceeds the number of base colors
-                colors.push(baseColors[i % baseColors.length]);
-            }
+            var totalPenjualan = data.map(function(item) {
+                return item.total_penjualan;
+            });
 
-            return colors;
-        }
+            var targetPenjualan = data.map(function(item) {
+                return item.target_penjualan;
+            });
 
-        var pieData = {
-            labels: {!! json_encode($kategoriLabels) !!},
-            datasets: [{
-                data: {!! json_encode($kategoriCountsData) !!},
-                backgroundColor: generateColors({{ count($kategoriLabels) }}),
-            }]
-        };
+            var chart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Penjualan',
+                        data: totalPenjualan,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Target Penjualan',
+                        data: targetPenjualan,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
 
-        var barData = {
-            labels: {!! json_encode($kategoriLabels) !!},
-            datasets: [{
-                label: '',
-                data: {!! json_encode($kategoriCountsData) !!},
-                backgroundColor: generateColors({{ count($kategoriLabels) }}),
-                borderColor: generateColors({{ count($kategoriLabels) }}),
-                borderWidth: 1
-            }]
-        };
+    <script>
+        $(document).ready(function() {
+            // Extract data from PHP array passed from controller
+            const labels = {!! json_encode($totalbySku->pluck('nama_sku')) !!};
+            const values = {!! json_encode($totalbySku->pluck('total_penjualan')) !!};
 
-        // pie chart
-        var pieChartCanvas = $('#donutChart').get(0).getContext('2d')
-        var pieOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-            title: {
-                display: true,
-                text: 'Data per kategori'
-            }
-        }
-        new Chart(pieChartCanvas, {
-            type: 'doughnut',
-            data: pieData,
-            options: pieOptions
-        })
+            // Render Chart
+            const ctx = document.getElementById('totalPenjualanChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Penjualan by SKU',
+                        data: values,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Adjust color as needed
+                        borderColor: 'rgba(54, 162, 235, 1)', // Adjust color as needed
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
 
-        // bar chart
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-
-        var barChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false,
-            title: {
-                display: true,
-                text: 'Data per kategori'
-            }
-        }
-
-        new Chart(barChartCanvas, {
-            type: 'horizontalBar',
-            data: barData,
-            options: barChartOptions
-        })
-    </script> --}}
+        });
+    </script>
 @endsection
