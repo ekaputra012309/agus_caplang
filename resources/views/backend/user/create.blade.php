@@ -40,47 +40,78 @@
                                 @endauth
 
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="name">Nama Lengkap</label>
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            placeholder="Nama Lengkap" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Email" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="password" name="password"
-                                                placeholder="Password" required>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="toggle-password">
-                                                    <i class="fas fa-eye" id="password-icon"></i>
-                                                </span>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="karyawan_id">Karyawan</label>
+                                                <select name="karyawan_id" id="karyawan_id" class="form-control select2bs4"
+                                                    required data-url="{{ route('karyawan.getNama', ':id') }}">
+                                                    @foreach ($master_karyawan as $k)
+                                                        <option value="{{ $k->id }}">{{ $k->nama_lengkap }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="name">Nama Lengkap</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    placeholder="Nama Lengkap" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    placeholder="Email" required>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="password_confirmation">Confirm Password</label>
-                                        <div class="input-group">
-                                            <input type="password" class="form-control" id="password_confirmation"
-                                                name="password_confirmation" placeholder="Confirm Password" required>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="toggle-password-confirmation">
-                                                    <i class="fas fa-eye" id="password-icon-confirmation"></i>
-                                                </span>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="password"
+                                                        name="password" placeholder="Password" required>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" id="toggle-password">
+                                                            <i class="fas fa-eye" id="password-icon"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="role">Role</label>
-                                        <select name="role" id="role" class="form-control select2bs4">
-                                            <option value="User">User</option>
-                                            <option value="IT">IT</option>
-                                            <option value="Monitoring">Monitoring</option>
-                                        </select>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="password_confirmation">Confirm Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="password_confirmation"
+                                                        name="password_confirmation" placeholder="Confirm Password"
+                                                        required>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" id="toggle-password-confirmation">
+                                                            <i class="fas fa-eye" id="password-icon-confirmation"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="role">Role</label>
+                                                <select name="role" id="role" class="form-control">
+                                                    <option value="">Pilih</option>
+                                                    <option value="TL">TL</option>
+                                                    <option value="MD MT">MD MT</option>
+                                                    <option value="MD GT">MD GT</option>
+                                                    <option value="MD MINIES">MD MINIES</option>
+                                                    <option value="SPG">SPG</option>
+                                                    <option value="PACKER">PACKER</option>
+                                                    <option value="Admin">Admin</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -97,6 +128,26 @@
         </section>
         <script>
             $(document).ready(function() {
+                $('#karyawan_id').change(function() {
+                    var karyawanId = $(this).val();
+                    var url = $(this).data('url').replace(':id', karyawanId);
+
+                    if (karyawanId) {
+                        $.ajax({
+                            url: url,
+                            type: 'GET',
+                            success: function(data) {
+                                $('#name').val(data.nama_lengkap);
+                            },
+                            error: function() {
+                                $('#name').val('');
+                            }
+                        });
+                    } else {
+                        $('#name').val('');
+                    }
+                });
+
                 $('#toggle-password').click(function() {
                     const passwordField = $('#password');
                     const passwordIcon = $('#password-icon');

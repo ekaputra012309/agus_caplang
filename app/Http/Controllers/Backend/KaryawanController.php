@@ -82,4 +82,15 @@ class KaryawanController extends Controller
 
         return redirect()->route('karyawan.index');
     }
+
+    public function getNama($id)
+    {
+        $karyawan = KaryawanModel::find($id);
+
+        if ($karyawan) {
+            return response()->json(['nama_lengkap' => $karyawan->nama_lengkap]);
+        }
+
+        return response()->json(['nama_lengkap' => ''], 404);
+    }
 }

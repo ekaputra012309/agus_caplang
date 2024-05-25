@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\KaryawanModel;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ class UserController extends Controller
         $authUserId = auth()->id();
 
         $users = User::where('id', '!=', $authUserId)
-            ->where('role', '!=', 'superadmin')
+            ->where('role', '!=', 'admin')
             ->get();
 
         $data = array(
@@ -33,8 +34,10 @@ class UserController extends Controller
 
     public function create()
     {
+        $master = KaryawanModel::all();
         $data = array(
             'title' => 'Add User | ',
+            'master_karyawan' => $master,
         );
         return view('backend.user.create', $data);
     }
@@ -45,7 +48,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|confirmed|min:8',
-            'role' => 'required|in:User,IT,Monitoring',
+            'role' => 'required|in:TL, MD MT, MD GT, MD MINIES, SPG, PACKER, Admin',
+            'karyawan_id' => 'required|exists:master_karyawan,id',
         ]);
 
         $user = [
@@ -53,6 +57,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'karyawan_id' => $request->karyawan_id,
         ];
 
         User::create($user);
@@ -70,9 +75,11 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $master = KaryawanModel::all();
         $data = array(
             'title' => 'Edit User | ',
             'user' => $user,
+            'master_karyawan' => $master,
         );
         return view('backend.user.edit', $data);
     }
@@ -83,7 +90,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|confirmed|min:8',
-            'role' => 'required|in:User,IT,Monitoring',
+            'role' => 'required|in:TL, MD MT, MD GT, MD MINIES, SPG, PACKER, Admin',
+            'karyawan_id' => 'required|exists:master_karyawan,id',
         ]);
 
         $user = User::findOrFail($id);
@@ -93,6 +101,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->role = $request->role;
+        $user->karyawan_id = $request->karyawan_id;
         $user->save();
 
         Alert::success('Success', 'User updated successfully.');

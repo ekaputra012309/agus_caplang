@@ -52,6 +52,24 @@
                                     <p>Hub Karyawan</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('sku.index') }}" class="nav-link">
+                                    <i class="fas fa-circle-notch nav-icon"></i>
+                                    <p>SKU</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('area.index') }}" class="nav-link">
+                                    <i class="fas fa-circle-notch nav-icon"></i>
+                                    <p>Area</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('outlet.index') }}" class="nav-link">
+                                    <i class="fas fa-circle-notch nav-icon"></i>
+                                    <p>Outlet</p>
+                                </a>
+                            </li>
                             @if (in_array(auth()->user()->role, ['Admin']))
                                 <li class="nav-item">
                                     <a href="{{ route('user.index') }}" class="nav-link">
