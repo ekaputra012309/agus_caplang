@@ -16,7 +16,7 @@ class UserController extends Controller
         $authUserId = auth()->id();
 
         $users = User::where('id', '!=', $authUserId)
-            ->where('role', '!=', 'admin')
+            ->where('role', '!=', 'Admin')
             ->get();
 
         $data = array(
@@ -47,8 +47,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|confirmed|min:8',
-            'role' => 'required|in:TL, MD MT, MD GT, MD MINIES, SPG, PACKER, Admin',
+            'password' => 'required|string|confirmed|min:5',
+            'role' => 'required|in:TL,MD MT,MD GT,MD MINIES,SPG,PACKER,Admin',
             'karyawan_id' => 'required|exists:master_karyawan,id',
         ]);
 
@@ -90,7 +90,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|confirmed|min:8',
-            'role' => 'required|in:TL, MD MT, MD GT, MD MINIES, SPG, PACKER, Admin',
+            'role' => 'required|in:TL,MD MT,MD GT,MD MINIES,SPG,PACKER,Admin',
             'karyawan_id' => 'required|exists:master_karyawan,id',
         ]);
 

@@ -42,31 +42,54 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('karyawan.index') }}" class="nav-link">
-                                    <i class="fas fa-circle-notch nav-icon"></i>
+                                    <i class="far fa-circle nav-icon"></i>
                                     <p>Karyawan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('hubkaryawan.index') }}" class="nav-link">
-                                    <i class="fas fa-circle-notch nav-icon"></i>
+                                    <i class="far fa-circle nav-icon"></i>
                                     <p>Hub Karyawan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('sku.index') }}" class="nav-link">
-                                    <i class="fas fa-circle-notch nav-icon"></i>
-                                    <p>SKU</p>
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Master SKU
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('sku.index') }}" class="nav-link">
+                                            <i class="fas fa-dot-circle nav-icon"></i>
+                                            <p>SKU</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('kategori.index') }}" class="nav-link">
+                                            <i class="fas fa-dot-circle nav-icon"></i>
+                                            <p>Kategori</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('brand.index') }}" class="nav-link">
+                                            <i class="fas fa-dot-circle nav-icon"></i>
+                                            <p>Brand</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('area.index') }}" class="nav-link">
-                                    <i class="fas fa-circle-notch nav-icon"></i>
+                                    <i class="far fa-circle nav-icon"></i>
                                     <p>Area</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('outlet.index') }}" class="nav-link">
-                                    <i class="fas fa-circle-notch nav-icon"></i>
+                                    <i class="far fa-circle nav-icon"></i>
                                     <p>Outlet</p>
                                 </a>
                             </li>
@@ -88,6 +111,17 @@
                             <i class="nav-icon fas fa-feather-alt"></i>
                             <p>
                                 Event
+                            </p>
+                        </a>
+                    </li>
+                @endif
+
+                @if (in_array(auth()->user()->role, ['Admin', 'SPG']))
+                    <li class="nav-item">
+                        <a href="{{ route('stok.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-feather-alt"></i>
+                            <p>
+                                Stok Barang
                             </p>
                         </a>
                     </li>

@@ -11,7 +11,7 @@ class MasterSkuController extends Controller
 {
     public function index()
     {
-        $sku = MasterSku::all();
+        $sku = MasterSku::with('brand1', 'kategori1')->get();
         $data = array(
             'title' => 'SKU | ',
             'datasku' => $sku,

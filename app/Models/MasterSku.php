@@ -18,6 +18,16 @@ class MasterSku extends Model
         'user_id',
     ];
 
+    public function brand1()
+    {
+        return $this->belongsTo(MasterBrand::class, 'brand', 'id');
+    }
+
+    public function kategori1()
+    {
+        return $this->belongsTo(MasterKategori::class, 'kategori', 'id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

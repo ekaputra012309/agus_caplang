@@ -5,9 +5,12 @@ use App\Http\Controllers\Backend\EventController;
 use App\Http\Controllers\Backend\HubkaryawanController;
 use App\Http\Controllers\Backend\KaryawanController;
 use App\Http\Controllers\Backend\MasterAreaController;
+use App\Http\Controllers\Backend\MasterBrandController;
+use App\Http\Controllers\Backend\MasterKategoriController;
 use App\Http\Controllers\Backend\MasterOutletController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\MasterSkuController;
+use App\Http\Controllers\Backend\MasterStokController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,14 +42,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('karyawan', KaryawanController::class); //karyawan
     Route::resource('hubkaryawan', HubkaryawanController::class); //hubkaryawan
     Route::resource('sku', MasterSkuController::class); //sku
+    Route::resource('brand', MasterBrandController::class); //brand
+    Route::resource('kategori', MasterKategoriController::class); //kategori
     Route::resource('area', MasterAreaController::class); //area
     Route::resource('outlet', MasterOutletController::class); //outlet
     Route::resource('user', UserController::class); //user
 
     Route::resource('event', EventController::class); //event
+    Route::resource('stok', MasterStokController::class); //stok
 });
 // routes/web.php
 Route::get('/karyawan/{id}/nama', [App\Http\Controllers\Backend\KaryawanController::class, 'getNama'])->name('karyawan.getNama');
+Route::get('/getFilteredSkus', [App\Http\Controllers\Backend\MasterStokController::class, 'getFilteredSkus'])->name('getFilteredSkus');
+
 
 
 require __DIR__ . '/auth.php';
